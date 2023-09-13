@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/QuizEkran%C4%B1.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,9 +39,27 @@ class _AnasayfaState extends State<Anasayfa> {
     return Scaffold(
       appBar: AppBar(
 
-        title: Text("Ana Sayfa"),
+        title:const  Text("Ana Sayfa"),
       ),
-      body:const Center(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+             const Padding(
+               padding: const EdgeInsets.all(25.0),
+               child: Text("Quiz App",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+             ),
+            SizedBox(
+              width: 250,height: 50,
+              child: ElevatedButton(
+                child: const Text("Başla",style: TextStyle(fontSize: 20),),
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => QuizEkrani()));
+                },
+              ),
+            )
+          ],
+        ),
 
       )
     );
