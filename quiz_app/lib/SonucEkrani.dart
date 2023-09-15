@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:quiz_app/main.dart';
 
 class SonucEkrani extends StatefulWidget {
-  const SonucEkrani({super.key});
+
+  int dogruSayisi;
+
+  SonucEkrani({required this .dogruSayisi});
+
 
   @override
   State<SonucEkrani> createState() => _SonucEkraniState();
@@ -18,8 +23,17 @@ class _SonucEkraniState extends State<SonucEkrani> {
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-            ],
+                children: [
+                  Text("Doğru : ${widget.dogruSayisi}, Yanlış${5-widget.dogruSayisi}",style: TextStyle(fontSize: 20),),
+                  Text("Başarı oranınız:${widget.dogruSayisi*100/5.toInt()}",style: TextStyle(fontSize: 30,color: Colors.green),),
+
+                  ElevatedButton(
+                    child: Text("Tekrar Deneyin"),
+                    onPressed:(){
+                      Navigator.pop(context);
+                    },
+                  )
+                ],
           ),
         )
     );
