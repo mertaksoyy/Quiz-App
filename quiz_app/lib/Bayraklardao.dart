@@ -19,7 +19,7 @@ class Bayraklardao{
   Future<List<Bayraklar>> rastgele3YanlisGetir(int bayrak_id) async{
     var db = await VeritabaniYardimcisi.veritabaniErisim();
 
-    List<Map<String,dynamic>> maps = await db.rawQuery("SELECT * FROM bayraklar WHERE bayrak_id != ${bayrak_id}ORDER BY RANDOM() LIMIT 3");
+    List<Map<String,dynamic>> maps = await db.rawQuery("SELECT * FROM bayraklar WHERE bayrak_id != $bayrak_id  ORDER BY RANDOM() LIMIT 3");
 
     return List.generate(maps.length, (i) {
       var satir = maps[i];

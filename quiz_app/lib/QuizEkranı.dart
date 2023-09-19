@@ -1,6 +1,4 @@
 import 'dart:collection';
-import 'dart:html';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quiz_app/Bayraklar.dart';
@@ -8,7 +6,7 @@ import 'package:quiz_app/Bayraklardao.dart';
 import 'package:quiz_app/SonucEkrani.dart';
 
 class QuizEkrani extends StatefulWidget {
-  const QuizEkrani({super.key});
+   QuizEkrani({super.key});
 
   @override
   State<QuizEkrani> createState() => _QuizEkraniState();
@@ -18,8 +16,8 @@ class _QuizEkraniState extends State<QuizEkrani> {
 
   var sorular = <Bayraklar>[];//--> db den gelecek Tüm sorular
   var yanlisSecenekler = <Bayraklar>[];//-->db den gelecek yanlış şıklar
-  late Bayraklar dogruSoru; //db den gelen cevap olan soruda gösterilen/soruda görünen bayrak
-  var tumSecenekler = HashSet<Bayraklar>();//-->a-b-c-d secenekler,HashSet içersindeki içeriğini otomatik karıştırıcak,seçeneklerin yeri karışacak.
+  late Bayraklar anaSoru;//--> db den gelen cevap olan soruda gösterilen/soruda görünen bayrak
+  var tumSecenekler = HashSet<Bayraklar>();//D ve Y Şıklarını karıştıracak.-->HashSet in özelliği içindeki verileri karıştırır.
 
   int soruSayac = 0;
   int dogruSayac = 0;
@@ -36,21 +34,23 @@ class _QuizEkraniState extends State<QuizEkrani> {
     sorulariAl();
   }
 
+  //ilk açıldığında gelicek
   Future<void> sorulariAl() async{
     sorular = await Bayraklardao().rastgele5Getir();//5 tane bayrağı sorular listesine atar.
+    soruYukle();
   }
 
   //5 soruyu aldıktan sonra arayüze yükleyeceğimiz fonk.
   Future<void> soruYukle() async{
-    dogruSoru = sorular[soruSayac];
+    anaSoru = sorular[soruSayac];
 
-    bayrakResimAdi = dogruSoru.bayrak_resim;//bayrağın resmi
+    bayrakResimAdi = anaSoru.bayrak_resim;//bayrağın resmi
 
-    yanlisSecenekler = await Bayraklardao().rastgele3YanlisGetir(dogruSoru.bayrak_id);
+    yanlisSecenekler = await Bayraklardao().rastgele3YanlisGetir(anaSoru.bayrak_id);
 
     //Seçenklerde 1d-3y seçenek var ve bunları karıştıracak
     tumSecenekler.clear();
-    tumSecenekler.add(dogruSoru);
+    tumSecenekler.add(anaSoru);
     tumSecenekler.add(yanlisSecenekler[0]);
     tumSecenekler.add(yanlisSecenekler[1]);
     tumSecenekler.add(yanlisSecenekler[2]);
@@ -60,6 +60,7 @@ class _QuizEkraniState extends State<QuizEkrani> {
     butonB = tumSecenekler.elementAt(1).bayrak_ad;
     butonC = tumSecenekler.elementAt(2).bayrak_ad;
     butonD = tumSecenekler.elementAt(3).bayrak_ad;
+
 
     setState(() {
 
@@ -76,10 +77,14 @@ class _QuizEkraniState extends State<QuizEkrani> {
     }
   }
 
-
-
-
-
+  void dogruKontrol(String buttonYazi){
+    if(anaSoru.bayrak_ad == buttonYazi){
+      dogruSayac += 1;
+    }
+    else{
+      yanlisSayac += 1;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,45 +99,51 @@ class _QuizEkraniState extends State<QuizEkrani> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text("Doğru : 1 ",style: TextStyle(fontSize: 20),),
-                  Text("Yanlış : 1 ",style: TextStyle(fontSize: 20),),
+                  Text("Doğru : $dogruSayac ",style: TextStyle(fontSize: 20),),
+                  Text("Yanlış : $yanlisSayac ",style: TextStyle(fontSize: 20),),
                 ],
               ),
 
-              Text("1.Soru",style: TextStyle(fontSize: 25),),
-              Image.asset("resimler/turkiye.png"),
+              soruSayac != 5 ? Text("${soruSayac+1}",style: TextStyle(fontSize: 25),):
+              Text("5.Soru" ,style: TextStyle(fontSize: 25),),
+              Image.asset("resimler/$bayrakResimAdi"),
               SizedBox(
                 width: 250,height: 50,
                 child: ElevatedButton(
-                  child: const Text("A:",style: TextStyle(fontSize: 20),),
+                  child:  Text(butonA,style: TextStyle(fontSize: 20),),
                   onPressed: (){
+                    dogruKontrol(butonA);
+                    soruSayacKontrol();
                   },
                 ),
               ),
               SizedBox(
                 width: 250,height: 50,
                 child: ElevatedButton(
-                  child: const Text("B:",style: TextStyle(fontSize: 20),),
+                  child: Text(butonB,style: TextStyle(fontSize: 20),),
                   onPressed: (){
-                   // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SonucEkrani()));
+                    dogruKontrol(butonB);
+                    soruSayacKontrol();
                   },
                 ),
               ),
               SizedBox(
                 width: 250,height: 50,
                 child: ElevatedButton(
-                  child: const Text("C:",style: TextStyle(fontSize: 20),),
+                  child:  Text(butonC,style: TextStyle(fontSize: 20),),
                   onPressed: (){
-                    //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SonucEkrani()));
+                    dogruKontrol(butonC);
+                    soruSayacKontrol();
                   },
                 ),
               ),
               SizedBox(
                 width: 250,height: 50,
                 child: ElevatedButton(
-                  child: const Text("D:",style: TextStyle(fontSize: 20),),
+                  child:  Text(butonD,style: TextStyle(fontSize: 20),),
                   onPressed: (){
-                    //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SonucEkrani()));
+                    dogruKontrol(butonD);
+                    soruSayacKontrol();
                   },
                 ),
               ),
