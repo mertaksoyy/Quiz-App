@@ -1,10 +1,8 @@
-# YemekTarifleriSQLite
-Yemek Tariflerinin bulunduğu ve yemek tarifi ekleyebildiğiniz bir uygulama.
+# Quiz App With SQLite
  
  ## Proje Adımları:
   **1)** Projenin oluşturulması ve SQLite dosyasının proje içerisine kopyalandı.
-
-
+  
   **2)** Pubspec dosyasında gerekli SQLite kütüphanelerin eklenmesi.Proje için fotoğrafların eklendi.  
   **3)** Proje için gerekli sınıfların oluşturulması.İçeriklerinin hazırlandı.  
   **4)** Projenin 3 sayfasının tasarımlarının oluşturulması.Ana Sayfa/Quiz Ekranı/Sonuç Ekranı.  
