@@ -12,12 +12,14 @@ class QuizEkrani extends StatefulWidget {
   State<QuizEkrani> createState() => _QuizEkraniState();
 }
 
+
 class _QuizEkraniState extends State<QuizEkrani> {
 
-  var sorular = <Bayraklar>[];//--> db den gelecek Tüm sorular--Bayraklar sınıfından nesneler alacak dizi tanımladık.
+  var sorular =  <Bayraklar>[];//--> db den gelecek Tüm sorular--Bayraklar sınıfından nesneler alacak dizi tanımladık.
   var yanlisSecenekler = <Bayraklar>[];//-->db den gelecek yanlış şıklar
   late Bayraklar anaSoru;//--> db den gelen cevap olan soruda gösterilen/soruda görünen bayrak
   var tumSecenekler = HashSet<Bayraklar>();//D ve Y Şıklarını karıştıracak.-->HashSet in özelliği içindeki verileri karıştırır.
+  late Bayraklar dogruSecenek;
 
   int soruSayac = 0;
   int dogruSayac = 0;
@@ -50,7 +52,7 @@ class _QuizEkraniState extends State<QuizEkrani> {
 
     //Seçenklerde 1d-3y seçenek var ve bunları karıştıracak
     tumSecenekler.clear();
-    tumSecenekler.add(anaSoru);
+    tumSecenekler.add(dogruSecenek);
     tumSecenekler.add(yanlisSecenekler[0]);
     tumSecenekler.add(yanlisSecenekler[1]);
     tumSecenekler.add(yanlisSecenekler[2]);

@@ -24,7 +24,7 @@ class _SonucEkraniState extends State<SonucEkrani> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text("Doğru : ${widget.dogruSayisi} -- Yanlış: ${5-widget.dogruSayisi}",style: TextStyle(fontSize: 20),),
+                  Text("Doğru : ${widget.dogruSayisi} -- Yanlış: ${5-w idget.dogruSayisi}",style: TextStyle(fontSize: 20),),
                   Text("Başarı oranınız: %${(widget.dogruSayisi*100/5).toInt()}",style: TextStyle(fontSize: 28,color: Colors.green),),
 
                   ElevatedButton(
